@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Patient</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1><span>&#9998;</span> Edit Patient</h1>
+
+    <div class="card">
+        <h2>Update Details</h2>
+        <form action="/update_patient" method="POST">
+            <input type="hidden" name="id" value="{{ patient.id }}">
+            <div class="form-grid">
+                <div>
+                    <input type="text" name="name" value="{{ patient.name }}" placeholder="Patient Name" required>
+                </div>
+                <div>
+                    <input type="number" name="age" value="{{ patient.age }}" placeholder="Age" required>
+                </div>
+                <div class="full-width">
+                    <select name="gender" required>
+                        <option value="Male" {% if patient.gender == 'Male' %}selected{% endif %}>Male</option>
+                        <option value="Female" {% if patient.gender == 'Female' %}selected{% endif %}>Female</option>
+                    </select>
+                </div>
+                <div class="full-width" style="display: flex; gap: 12px;">
+                    <button type="submit" class="btn btn-primary">Update Patient</button>
+                    <a href="/" class="btn btn-back">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

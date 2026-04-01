@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital - Patient Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1><span>+</span> Patient Management</h1>
+
+    <div class="split-layout">
+        <!-- Left Side: Add Patient Form -->
+        <div class="left-panel">
+            <div class="card">
+                <h2>Add New Patient</h2>
+                <form action="/add_patient" method="POST">
+                    <div class="form-stack">
+                        <div>
+                            <label>Patient Name</label>
+                            <input type="text" name="name" placeholder="Enter name" required>
+                        </div>
+                        <div>
+                            <label>Age</label>
+                            <input type="number" name="age" placeholder="Enter age" required>
+                        </div>
+                        <div>
+                            <label>Gender</label>
+                            <select name="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Add Patient</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Right Side: Patient Records -->
+        <div class="right-panel">
+            <div class="card">
+                <h2>Patient Records</h2>
+
+                {% if patients %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for patient in patients %}
+                        <tr>
+                            <td class="id-col">{{ patient.id }}</td>
+                            <td>{{ patient.name }}</td>
+                            <td>{{ patient.age }}</td>
+                            <td>
+                                <span class="badge {% if patient.gender == 'Male' %}badge-male{% elif patient.gender == 'Female' %}badge-female{% else %}badge-other{% endif %}">
+                                    {{ patient.gender }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="actions">
+                                    <a href="/edit/{{ patient.id }}" class="btn btn-edit">Edit</a>
+                                    <a href="/delete/{{ patient.id }}" class="btn btn-delete">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="empty">
+                    <div class="empty-icon">📋</div>
+                    <p>No patients yet. Add one using the form.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
